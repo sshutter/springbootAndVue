@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.self_learning.backend.service.CategoryService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/category")
 public class CategoryController {
     @Autowired
