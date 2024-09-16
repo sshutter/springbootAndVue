@@ -1,8 +1,13 @@
 package com.self_learning.backend.controller;
 
+import com.self_learning.backend.common.ApiResponse;
 import com.self_learning.backend.model.Category;
 import java.util.List;
+
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.self_learning.backend.service.CategoryService;
 
@@ -14,13 +19,26 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping("/create")
-    public String createCategory(@RequestBody Category category) {
+    public ResponseEntity<ApiResponse> createCategory(@RequestBody Category category) {
         categoryService.createCategory(category);
-        return "success";
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Created a new category"), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
     public List<Category> listCategories() {
         return categoryService.listCategories();
+    }
+
+    @PutMapping("/update/{categoryId}")
+    public ResponseEntity<ApiResponse> updateCategory(@PathVariable("categoryId") int categoryId, @RequestBody Category category) {
+        try {
+            categoryService.editCategory(categoryId, category);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Category does not exist"), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Some thing went wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Updated the category"), HttpStatus.OK);
     }
 }
