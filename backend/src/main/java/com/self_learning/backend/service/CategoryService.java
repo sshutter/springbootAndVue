@@ -1,6 +1,7 @@
 package com.self_learning.backend.service;
 
 import com.self_learning.backend.model.Category;
+import com.self_learning.backend.model.Product;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,13 @@ public class CategoryService {
         } else {
             throw new EntityNotFoundException("Category with ID " + categoryId + " not found");
         }
+    }
 
+    public void deleteCategory(Integer categoryId) {
+        Optional<Category> optionalCategory = categoryRepo.findById(categoryId);
+        if(!optionalCategory.isPresent()) {
+            throw new EntityNotFoundException("Product is not present");
+        }
+        categoryRepo.delete(optionalCategory.get());
     }
 }
