@@ -30,7 +30,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update/{categoryId}")
-    public ResponseEntity<ApiResponse> updateCategory(@PathVariable("categoryId") int categoryId, @RequestBody Category category) {
+    public ResponseEntity<ApiResponse> updateCategory(@PathVariable("categoryId") Integer categoryId, @RequestBody Category category) {
         try {
             categoryService.editCategory(categoryId, category);
         } catch (EntityNotFoundException e) {
@@ -40,5 +40,19 @@ public class CategoryController {
         }
 
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Updated the category"), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delte/{categoryId}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("categoryId") Integer categoryId) {
+        try {
+            categoryService.deleteCategory(categoryId);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Category does not found"), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Some thing went wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Deleted the category"), HttpStatus.OK);
+
     }
 }
