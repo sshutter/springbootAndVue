@@ -42,7 +42,7 @@ public class CategoryController {
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Updated the category"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delte/{categoryId}")
+    @DeleteMapping("/delete/{categoryId}")
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("categoryId") Integer categoryId) {
         try {
             categoryService.deleteCategory(categoryId);
