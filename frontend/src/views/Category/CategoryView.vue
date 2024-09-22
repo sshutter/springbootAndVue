@@ -22,26 +22,15 @@
 
 <script>
 import CategoryCard from "@/components/Category/CategoryCard.vue";
-const axios = require("axios");
 export default {
   name: "CategoryView",
   components: { CategoryCard },
+  props: ["categories"],
   data() {
-    return {
-      categories: [],
-    };
+    return {};
   },
-  methods: {
-    async getCategories() {
-      await axios
-        .get(`${process.env.VUE_APP_API_URL}/category/list`)
-        .then((res) => (this.categories = res.data))
-        .catch((err) => console.log(err));
-    },
-  },
-  mounted() {
-    this.getCategories();
-  },
+
+  mounted() {},
 };
 </script>
 
